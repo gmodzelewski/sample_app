@@ -11,6 +11,19 @@
 
 require 'spec_helper'
 
+describe "User pages" do
+
+  subject { page }
+
+  describe "profile page" do
+    let(:user) { FactoryGirl.create(:user) }
+    before { visit user_path(user) }
+
+    it { should have_selector('h1',    text: user.name) }
+    it { should have_selector('title', text: user.name) }
+  end
+
+
 describe User do
 
   before do
@@ -80,11 +93,6 @@ describe User do
     it { should_not be_valid }
   end
 
-  describe "with a password that's too short" do
-    before { @user.password = @user.password_confirmation = "a" * 5 }
-    it { should be_invalid }
-  end
-
   describe "return value of authenticate method" do
   before { @user.save }
   let(:found_user) { User.find_by_email(@user.email) }
@@ -99,7 +107,7 @@ describe User do
     it { should_not == user_for_invalid_password }
     specify { user_for_invalid_password.should be_false }
   end
-
 end
 
+end
 end
